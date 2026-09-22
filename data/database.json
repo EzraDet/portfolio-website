@@ -1,0 +1,159 @@
+{
+  "about": {
+    "mainText": "Hello! My name is Doung Det, and I’m a Web Development Executive.",
+    "subText": "We all know famous web developers who dropped out of school and still succeeded. However, if you think that you’re Mark Zuckerberg – you’re probably not. Luckily, there are many training courses to become a web developer. First, an initial specialisation in computer science is strongly recommended. Then you can choose between several university or college courses, such as Web Design and Development, Software Engineering, Digital media development."
+  },
+  "banner": {
+    "images": [
+      "/images/banners/1790054593276-485623924.jpg",
+      "/images/banners/1790054688659-896844072.jpg"
+    ],
+    "text": "Doung Det",
+    "description": "Web Developer | Graphic Designer | Administrator",
+    "textColor": "#ffffff",
+    "descriptionColor": "#ffffff",
+    "textAlign": "center"
+  },
+  "services": [
+    {
+      "id": 1,
+      "title": "Front End Web Developer",
+      "description": "Building modern, responsive web interfaces.",
+      "iconType": "icon",
+      "icon": "fa-code",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "title": "Web Designer",
+      "description": "Designing beautiful and functional websites.",
+      "iconType": "icon",
+      "icon": "fa-paint-brush",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "title": "UX/UI Executive",
+      "description": "Crafting user-centered experiences and interfaces.",
+      "iconType": "icon",
+      "icon": "fa-object-group",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "title": "Graphic Designer",
+      "description": "Creating visual concepts and brand identities.",
+      "iconType": "icon",
+      "icon": "fa-palette",
+      "image": ""
+    },
+    {
+      "id": 5,
+      "title": "Administrative",
+      "description": "Managing operations and administrative tasks.",
+      "iconType": "icon",
+      "icon": "fa-briefcase",
+      "image": ""
+    },
+    {
+      "id": 6,
+      "title": "SEO and Google Platform",
+      "description": "Optimizing for search engines and Google tools.",
+      "iconType": "icon",
+      "icon": "fa-search",
+      "image": ""
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "ReanHub School",
+      "description": "web frontend project this is URL demo: https://reanhub.vercel.app/",
+      "image": "/images/projects/1790060151855-401212140.jpg",
+      "createdAt": "2026-09-22T05:10:45.833Z"
+    },
+    {
+      "id": 2,
+      "title": "Phum Electronics",
+      "description": "Build Front-end project this is Demo: https://seomarketing.vercel.app/",
+      "image": "/images/projects/1790060195985-629833983.jpg",
+      "createdAt": "2026-09-22T05:16:15.527Z"
+    },
+    {
+      "id": 3,
+      "title": "Portfolio Project",
+      "description": "My 3D Portfolio URL: https://3-d-portfolio-tau-lovat.vercel.app/",
+      "image": "/images/projects/1790060239445-992045907.jpg",
+      "createdAt": "2026-09-22T06:57:19.461Z"
+    },
+    {
+      "id": 4,
+      "title": "Pchum Ben Fistival",
+      "description": "Create Artwork for a Public Holiday",
+      "image": "/images/projects/1790061080365-473721045.jpg",
+      "createdAt": "2026-09-22T07:11:20.478Z"
+    },
+    {
+      "id": 5,
+      "title": "Khmer New Year",
+      "description": "Create Artwork for a Khmer New Year ",
+      "image": "/images/projects/1790061126011-603912725.jpg",
+      "createdAt": "2026-09-22T07:12:06.015Z"
+    },
+    {
+      "id": 6,
+      "title": "Cambodia Victory",
+      "description": "Create artwork",
+      "image": "/images/projects/1790061202892-920840625.jpg",
+      "createdAt": "2026-09-22T07:13:22.897Z"
+    },
+    {
+      "id": 7,
+      "title": "Children international day",
+      "description": "Artwork for a Children international day",
+      "image": "/images/projects/1790061245095-31602081.jpg",
+      "createdAt": "2026-09-22T07:14:05.583Z"
+    },
+    {
+      "id": 8,
+      "title": "King Birthday ",
+      "description": "Create artwork for King Birthday",
+      "image": "/images/projects/1790061273043-108168241.jpg",
+      "createdAt": "2026-09-22T07:14:33.190Z"
+    },
+    {
+      "id": 9,
+      "title": "Queen Birthday",
+      "description": "create artwork for QUEEN BIRTHDAY",
+      "image": "/images/projects/1790061369793-336299690.jpg",
+      "createdAt": "2026-09-22T07:16:09.815Z"
+    }
+  ],
+  "cv": {
+    "title": "My Curriculum Vitae",
+    "description": "I am writing to express my interest in the Web Developer position at your company. I am passionate about web development and enjoy creating modern, responsive, and user-friendly websites that provide a good experience for users.",
+    "file": "/images/cv/1790053833445-935459994.pdf",
+    "fileName": "Ethics_Decision_Tree.pdf"
+  },
+  "lastUpdated": "2026-09-22T07:16:09.822Z",
+  "messages": [
+    {
+      "id": 1,
+      "name": "SoppyVault",
+      "email": "detdong725@gmail.com",
+      "subject": "I am HR",
+      "message": "I need you in my team",
+      "receivedAt": "2026-09-22T06:21:41.508Z",
+      "read": false
+    },
+    {
+      "id": 2,
+      "name": "ABC Bank",
+      "email": "detdong725@gmail.com",
+      "subject": "I am HR",
+      "message": "Hi det. I need you to buil my project if you available pls let me know.\nThanks",
+      "receivedAt": "2026-09-22T06:35:17.743Z",
+      "read": false
+    }
+  ]
+}

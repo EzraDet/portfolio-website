@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DET DOUNG | Web Developer</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ============ Navbar ============ -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">DET DOUNG</a>
+      <ul class="nav-menu">
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#services">Experiences</a></li>
+        <li><a href="#cv">My CV</a></li>
+        <li><a href="#projects">My Projects</a></li>
+        <li><a href="#contact">Contact Me</a></li>
+      </ul>
+      <div class="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ Banner (dynamic) ============ -->
+  <section class="banner">
+    <div class="slider" id="slider"></div>
+    <div class="banner-overlay" id="bannerOverlay">
+      <h1 id="bannerTitle">DET DOUNG</h1>
+      <p id="bannerDescription"></p>
+    </div>
+    <button class="slider-btn prev" onclick="changeSlide(-1)" aria-label="Previous">&#10094;</button>
+    <button class="slider-btn next" onclick="changeSlide(1)" aria-label="Next">&#10095;</button>
+    <div class="slider-dots" id="dots"></div>
+  </section>
+
+  <!-- ============ About Me ============ -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <div class="about-image">
+          <img src="/images/profile.jpg" alt="DET DOUNG"
+               onerror="this.src='https://via.placeholder.com/400x400/4f46e5/ffffff?text=DET+DOUNG'">
+        </div>
+        <div class="about-text">
+          <h3 id="aboutMainText">Loading...</h3>
+          <p id="aboutSubText"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Services ============ -->
+  <section id="services" class="section services-section">
+    <div class="container">
+      <h2 class="section-title">My Experiences</h2>
+      <div class="services-grid" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ My CV (dynamic) ============ -->
+  <section id="cv" class="section">
+    <div class="container">
+      <h2 class="section-title" id="cvSectionTitle">My CV</h2>
+      <div class="cv-content">
+        <p id="cvDescription"></p>
+        <a href="#" id="cvDownloadBtn" class="btn btn-primary" download style="display:none">
+          <i class="fas fa-download"></i> Download CV
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Projects ============ -->
+  <section id="projects" class="section projects-section">
+    <div class="container">
+      <h2 class="section-title">My Projects</h2>
+      <p class="section-subtitle">A showcase of my recent work — click any card to view details</p>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ Project Modal ============ -->
+  <div class="modal" id="projectModal">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+      <img class="modal-image" id="modalImage" alt="Project">
+      <div class="modal-info">
+        <h3 id="modalCaption"></h3>
+        <p id="modalDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Contact ============ -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <h2 class="section-title">Contact Me</h2>
+
+      <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+        <input type="text"  name="name"    placeholder="Your Name"    required>
+        <input type="email" name="email"   placeholder="Your Email"   required>
+        <input type="text"  name="subject" placeholder="Subject">
+        <textarea rows="5"  name="message" placeholder="Your Message" required></textarea>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </form>
+
+      <p style="text-align:center; margin-top:1.5rem; color:#64748b; font-size:0.9rem;">
+        Or email me directly at
+        <a href="mailto:doungdet.ggear@gmail.com"
+           style="color:#4f46e5; font-weight:600; text-decoration:none;">
+          doungdet.ggear@gmail.com
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ Footer ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="social-links">
+        <a href="https://www.facebook.com/doungdet.ezra" aria-label="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.linkedin.com/in/doung-det-49b162224/" aria-label="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/EzraDet" aria-label="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://t.me/ezradet" aria-label="Telegram" target="_blank"><i class="fab fa-telegram"></i></a>
+      </div>
+      <p>&copy; 2026 DET DOUNG. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ============ Manual Refresh Button ============ -->
+  <button onclick="refreshPortfolio && refreshPortfolio()"
+          title="Refresh content"
+          aria-label="Refresh content"
+          style="position:fixed;bottom:20px;right:20px;z-index:9999;
+                 width:52px;height:52px;border-radius:50%;
+                 background:linear-gradient(135deg,#4f46e5,#06b6d4);
+                 color:white;border:none;cursor:pointer;font-size:1.2rem;
+                 box-shadow:0 6px 20px rgba(79,70,229,0.4);
+                 transition:transform .3s;"
+          onmouseover="this.style.transform='scale(1.1) rotate(90deg)'"
+          onmouseout="this.style.transform='scale(1) rotate(0deg)'">
+    <i class="fas fa-sync-alt"></i>
+  </button>
+
+  <script>
+    (function () {
+      var SKIP_AFTER_MS = 6000;
+
+      var killSwitch = setTimeout(function () {
+        try {
+          window.stop();
+          console.log('⏸️ Loading skipped — pending requests aborted');
+        } catch (e) {
+          console.warn('Skip failed:', e);
+        }
+        document.querySelectorAll('.loading, #loading, .loader').forEach(function (el) {
+          el.remove();
+        });
+      }, SKIP_AFTER_MS);
+
+      window.addEventListener('load', function () {
+        clearTimeout(killSwitch);
+        console.log('✅ Page loaded in time');
+      });
+    })();
+  </script>
+
+  <script src="/js/main.js?v=8"></script>
+</body>
+</html>

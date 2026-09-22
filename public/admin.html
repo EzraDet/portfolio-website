@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Doung Det</title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="admin-container">
+
+    <!-- ============================================================
+         SIDEBAR
+    ============================================================ -->
+    <aside class="sidebar">
+      <h2><i class="fas fa-cog"></i>Portfolio Admin</h2>
+      <nav>
+        <a href="#aboutSection" class="active" onclick="showSection('aboutSection', this)">
+          <i class="fas fa-user"></i> About Me
+        </a>
+        <a href="#bannerSection" onclick="showSection('bannerSection', this)">
+          <i class="fas fa-image"></i> Banner
+        </a>
+        <a href="#servicesSection" onclick="showSection('servicesSection', this)">
+          <i class="fas fa-briefcase"></i> My Services
+        </a>
+        <a href="#cvSection" onclick="showSection('cvSection', this)">
+          <i class="fas fa-file-pdf"></i> My CV
+        </a>
+        <a href="#projectsSection" onclick="showSection('projectsSection', this)">
+          <i class="fas fa-folder-open"></i> My Projects
+        </a>
+        <a href="/" target="_blank">
+          <i class="fas fa-external-link-alt"></i> View Site
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+
+      <!-- ============================================================
+           ✅ USER BAR + LOGOUT
+      ============================================================ -->
+      <div class="user-bar">
+        <div class="user-info">
+          <i class="fas fa-user-circle"></i>
+          <span id="currentUser">Admin</span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+
+      <!-- ============================================================
+           ABOUT SECTION
+      ============================================================ -->
+      <section id="aboutSection" class="admin-section active">
+        <h1>About Me</h1>
+
+        <div class="card">
+          <h3>Personal Introduction</h3>
+          <form id="aboutForm">
+            <div class="form-group">
+              <label>Main Text</label>
+              <input type="text" id="mainText" placeholder="Hi, I am Doung Det" required>
+            </div>
+            <div class="form-group">
+              <label>Sub Text</label>
+              <textarea id="subText" rows="3" placeholder="I am a web developer..." required></textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="publish-bar">
+          <button type="button" id="publishAboutBtn" class="btn btn-publish">
+            <i class="fas fa-rocket"></i> Publish About
+          </button>
+          <span class="publish-hint">Saves your introduction to the frontend</span>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           BANNER SECTION
+      ============================================================ -->
+      <section id="bannerSection" class="admin-section">
+        <h1>Banner Settings</h1>
+
+        <!-- Text & Style -->
+        <div class="card">
+          <h3>Banner Text &amp; Style</h3>
+          <div class="form-group">
+            <label>Banner Title</label>
+            <input type="text" id="bannerText" placeholder="Doung Det">
+          </div>
+          <div class="form-group">
+            <label>Banner Description</label>
+            <input type="text" id="bannerDescription" placeholder="Web Developer | Graphic Designer">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Title Color</label>
+              <div class="color-input">
+                <input type="color" id="bannerTextColor" value="#ffffff">
+                <input type="text" id="bannerTextColorHex" value="#ffffff" maxlength="7">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description Color</label>
+              <div class="color-input">
+                <input type="color" id="bannerDescriptionColor" value="#ffffff">
+                <input type="text" id="bannerDescriptionColorHex" value="#ffffff" maxlength="7">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Text Alignment</label>
+            <select id="bannerTextAlign">
+              <option value="left">Left</option>
+              <option value="center" selected>Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Upload Images -->
+        <div class="card">
+          <h3>Banner Images (1920×1080 recommended)</h3>
+          <div class="form-group">
+            <label>Add Images</label>
+            <div class="drop-zone" id="bannerDropZone">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Click to select or drag &amp; drop images here</p>
+              <input type="file" id="bannerImages" accept="image/*" multiple hidden>
+            </div>
+          </div>
+          <div id="bannerPreview" class="image-grid" style="margin-top:1rem"></div>
+        </div>
+
+        <!-- Banner List -->
+        <div class="card">
+          <h3>Banner Image List</h3>
+          <p class="hint-text">
+            <i class="fas fa-info-circle"></i>
+            Drag cards to reorder · Hover an image to edit or delete
+          </p>
+          <div id="bannerList" class="banner-list-grid"></div>
+        </div>
+
+        <!-- Publish -->
+        <div class="publish-bar">
+          <button type="button" id="publishBannerBtn" class="btn btn-publish">
+            <i class="fas fa-rocket"></i> Publish Banner
+          </button>
+          <span class="publish-hint">
+            Saves text, style &amp; uploads images to <code>/images/banners/</code>
+          </span>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SERVICES SECTION
+      ============================================================ -->
+      <section id="servicesSection" class="admin-section">
+        <h1>My Services</h1>
+
+        <div class="card">
+          <h3>Add New Service</h3>
+          <form id="serviceForm">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="serviceTitle" placeholder="Front End Developer" required>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea id="serviceDescription" rows="2" placeholder="Short description..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Icon Type</label>
+              <select id="serviceIconType" onchange="toggleIconInput()">
+                <option value="icon">Font Awesome Icon</option>
+                <option value="image">Upload Image</option>
+              </select>
+            </div>
+            <div class="form-group" id="iconInputGroup">
+              <label>Font Awesome Icon Class</label>
+              <input type="text" id="serviceIcon" placeholder="e.g., fa-code, fa-paint-brush" value="fa-star">
+              <small>Browse icons at <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com</a></small>
+            </div>
+            <div class="form-group" id="imageInputGroup" style="display:none">
+              <label>Upload Image / Icon</label>
+              <input type="file" id="serviceImage" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add Service
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Service List</h3>
+          <div id="servicesList"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           CV SECTION
+      ============================================================ -->
+      <section id="cvSection" class="admin-section">
+        <h1>My CV</h1>
+
+        <div class="card">
+          <h3>CV Details</h3>
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="cvTitle" placeholder="My Curriculum Vitae">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="cvDescription" rows="2" placeholder="Download my CV..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>CV PDF File</label>
+            <div class="drop-zone" id="cvDropZone">
+              <i class="fas fa-file-pdf"></i>
+              <p>Click or drag a PDF here</p>
+              <input type="file" id="cvFile" accept=".pdf" hidden>
+            </div>
+          </div>
+          <div id="cvPreview" style="margin-top:1rem"></div>
+        </div>
+
+        <div class="card">
+          <h3>Current CV File</h3>
+          <div id="cvFileInfo"></div>
+        </div>
+
+        <div class="publish-bar">
+          <button type="button" id="publishCVBtn" class="btn btn-publish">
+            <i class="fas fa-rocket"></i> Publish CV
+          </button>
+          <span class="publish-hint">
+            Saves title, description &amp; uploads PDF <code>your folder</code>
+          </span>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PROJECTS SECTION
+      ============================================================ -->
+      <section id="projectsSection" class="admin-section">
+        <h1>My Projects</h1>
+
+        <div class="card">
+          <h3>Add New Project</h3>
+          <form id="projectForm">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="projectTitle" placeholder="Project Name" required>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea id="projectDescription" rows="2" placeholder="Short description..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Project Image</label>
+              <input type="file" id="projectImage" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add Project
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Project List</h3>
+          <div id="projectsList" class="image-grid"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============================================================
+       EDIT SERVICE MODAL
+  ============================================================ -->
+  <div class="modal" id="editServiceModal">
+    <div class="modal-content">
+      <h3>Edit Service</h3>
+      <form id="editServiceForm">
+        <input type="hidden" id="editId">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="editTitle" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="editDescription" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Icon Type</label>
+          <select id="editIconType" onchange="toggleEditIconInput()">
+            <option value="icon">Font Awesome Icon</option>
+            <option value="image">Upload Image</option>
+          </select>
+        </div>
+        <div class="form-group" id="editIconInputGroup">
+          <label>Font Awesome Icon Class</label>
+          <input type="text" id="editIcon" placeholder="e.g., fa-code">
+        </div>
+        <div class="form-group" id="editImageInputGroup" style="display:none">
+          <label>Upload New Image</label>
+          <input type="file" id="editImage" accept="image/*">
+          <div id="editCurrentImage" style="margin-top:0.5rem"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeEditServiceModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       EDIT PROJECT MODAL
+  ============================================================ -->
+  <div class="modal" id="editProjectModal">
+    <div class="modal-content">
+      <h3>Edit Project</h3>
+      <form id="editProjectForm">
+        <input type="hidden" id="editProjectId">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="editProjectTitle" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="editProjectDescription" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Replace Image (optional)</label>
+          <input type="file" id="editProjectImage" accept="image/*">
+          <div id="editProjectCurrentImage" style="margin-top:0.5rem"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeEditProjectModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       EDIT BANNER IMAGE MODAL
+  ============================================================ -->
+  <div class="modal" id="editBannerModal">
+    <div class="modal-content">
+      <h3>Edit Banner Image</h3>
+
+      <div style="text-align:center;margin-bottom:1.25rem">
+        <img id="editBannerImgPreview" src="" alt="Preview"
+             style="max-width:100%;max-height:250px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.1)">
+      </div>
+
+      <div class="form-group">
+        <label>Image Path</label>
+        <input type="text" id="editBannerImgPath" readonly
+               style="background:#f1f5f9;font-family:monospace;font-size:0.85rem">
+      </div>
+
+      <div class="form-group">
+        <label>Move Position</label>
+        <div style="display:flex;gap:0.5rem">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="moveBannerImage(-1)">
+            <i class="fas fa-arrow-left"></i> Move Left
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="moveBannerImage(1)">
+            Move Right <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+        <small>Reorder how banner images appear on the frontend</small>
+      </div>
+
+      <div class="form-group">
+        <label>Replace Image (optional)</label>
+        <input type="file" id="editBannerNewFile" accept="image/*">
+        <small>Upload a new image to replace this one</small>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-danger" onclick="deleteBannerFromModal()">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="closeEditBannerModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="saveBannerImageEdit()">
+          <i class="fas fa-save"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js?v=3"></script>
+</body>
+</html>
