@@ -7,37 +7,14 @@ const fs = require('fs');
 const multer = require('multer');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Render requires dynamic port
 
 // ============= ADMIN CREDENTIALS =============
 // ⚠️ Change these before deploying!
 const ADMIN_USER = 'doungdet';
 const ADMIN_PASS_HASH = bcrypt.hashSync('doungdet123!', 10);
-
-// ============= EMAIL TRANSPORTER =============
-const mailer = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD
-  }
-});
-
-// Verify email config on startup
-if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
-  mailer.verify((err, ok) => {
-    if (err) {
-      console.warn('⚠️ Email not configured:', err.message);
-    } else {
-      console.log('✅ Email ready to send');
-    }
-  });
-} else {
-  console.warn('⚠️ GMAIL_USER or GMAIL_APP_PASSWORD not set in .env');
-}
 
 // ============= MIDDLEWARE =============
 app.use(cors());
@@ -198,7 +175,7 @@ app.get('/api/me', (req, res) => {
   res.json({ success: true, loggedIn: false });
 });
 
-// ============= CONTACT FORM =============
+// ============= CONTACT FORM (UPDATED FOR RESEND API) =============
 const contactAttempts = new Map(); // simple rate limit
 
 app.post('/api/contact', async (req, res) => {
@@ -225,8 +202,8 @@ app.post('/api/contact', async (req, res) => {
     }
     contactAttempts.set(ip, now);
 
-    // Check credentials
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    // Check Resend API key credentials
+    if (!process.env.RESEND_API_KEY || !process.env.GMAIL_USER) {
       return res.status(500).json({
         success: false,
         message: 'Email service not configured. Please contact me directly.'
@@ -248,56 +225,71 @@ app.post('/api/contact', async (req, res) => {
       console.warn('Could not save message to DB:', e.message);
     }
 
-    // Build email
-    const mailOptions = {
-      from: `"Portfolio Contact" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      replyTo: email,
-      subject: subject ? `📩 ${subject}` : `📩 New message from ${name}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f8fafc; border-radius: 12px;">
-          <div style="background: linear-gradient(135deg, #4f46e5, #06b6d4); color: white; padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
-            <h2 style="margin: 0;">📬 New Contact Message</h2>
-            <p style="margin: 5px 0 0; opacity: 0.9;">From your portfolio website</p>
-          </div>
-
-          <div style="background: white; padding: 25px; border-radius: 0 0 10px 10px;">
-            <table style="width: 100%; border-collapse: collapse;">
-              <tr>
-                <td style="padding: 10px 0; font-weight: bold; color: #1e293b; width: 100px;">Name:</td>
-                <td style="padding: 10px 0; color: #334155;">${escapeHtml(name)}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; font-weight: bold; color: #1e293b;">Email:</td>
-                <td style="padding: 10px 0; color: #334155;">
-                  <a href="mailto:${escapeHtml(email)}" style="color: #4f46e5;">${escapeHtml(email)}</a>
-                </td>
-              </tr>
-              ${subject ? `
-              <tr>
-                <td style="padding: 10px 0; font-weight: bold; color: #1e293b;">Subject:</td>
-                <td style="padding: 10px 0; color: #334155;">${escapeHtml(subject)}</td>
-              </tr>` : ''}
-            </table>
-
-            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-
-            <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #4f46e5;">
-              <p style="margin: 0 0 10px; font-weight: bold; color: #1e293b;">Message:</p>
-              <p style="margin: 0; color: #334155; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(message)}</p>
-            </div>
-
-            <p style="margin-top: 25px; font-size: 12px; color: #94a3b8; text-align: center;">
-              Sent from your portfolio at ${new Date().toLocaleString()}
-            </p>
-          </div>
+    // Build email HTML (Kept your exact beautiful template)
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f8fafc; border-radius: 12px;">
+        <div style="background: linear-gradient(135deg, #4f46e5, #06b6d4); color: white; padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
+          <h2 style="margin: 0;">📬 New Contact Message</h2>
+          <p style="margin: 5px 0 0; opacity: 0.9;">From your portfolio website</p>
         </div>
-      `
-    };
 
-    await mailer.sendMail(mailOptions);
+        <div style="background: white; padding: 25px; border-radius: 0 0 10px 10px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 10px 0; font-weight: bold; color: #1e293b; width: 100px;">Name:</td>
+              <td style="padding: 10px 0; color: #334155;">${escapeHtml(name)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; font-weight: bold; color: #1e293b;">Email:</td>
+              <td style="padding: 10px 0; color: #334155;">
+                <a href="mailto:${escapeHtml(email)}" style="color: #4f46e5;">${escapeHtml(email)}</a>
+              </td>
+            </tr>
+            ${subject ? `
+            <tr>
+              <td style="padding: 10px 0; font-weight: bold; color: #1e293b;">Subject:</td>
+              <td style="padding: 10px 0; color: #334155;">${escapeHtml(subject)}</td>
+            </tr>` : ''}
+          </table>
+
+          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+
+          <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #4f46e5;">
+            <p style="margin: 0 0 10px; font-weight: bold; color: #1e293b;">Message:</p>
+            <p style="margin: 0; color: #334155; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(message)}</p>
+          </div>
+
+          <p style="margin-top: 25px; font-size: 12px; color: #94a3b8; text-align: center;">
+            Sent from your portfolio at ${new Date().toLocaleString()}
+          </p>
+        </div>
+      </div>
+    `;
+
+    // Send via Resend HTTP API (Bypasses Render SMTP block)
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Portfolio Contact <onboarding@resend.dev>', // Use your verified domain later
+        to: [process.env.GMAIL_USER], // Your Gmail address
+        reply_to: email, // The visitor's email
+        subject: subject ? `📩 ${subject}` : `📩 New message from ${name}`,
+        html: emailHtml
+      }),
+    });
+
+    if (!emailResponse.ok) {
+      const errorBody = await emailResponse.text();
+      throw new Error(`Resend API error: ${errorBody}`);
+    }
+
     console.log(`📧 Contact email sent from ${email}`);
     res.json({ success: true, message: 'Message sent successfully!' });
+
   } catch (err) {
     console.error('❌ Contact error:', err);
     res.status(500).json({ success: false, message: 'Failed to send message. Please try again.' });
@@ -646,8 +638,6 @@ app.use((err, req, res, next) => {
 
 // ============= START =============
 app.listen(PORT, () => {
-  console.log(`\n🚀 Server running at http://localhost:${PORT}`);
-  console.log(`📋 Admin panel at http://localhost:${PORT}/admin`);
-  console.log(`🔐 Login page at http://localhost:${PORT}/login`);
+  console.log(`\n🚀 Server running on port ${PORT}`);
   console.log(`📁 Images saved to: ${IMAGES_DIR}\n`);
 });
