@@ -22,8 +22,9 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 // Session for login state
+if (!process.env.SESSION_SECRET) throw new Error('SESSION_SECRET is not set');
 app.use(session({
-  secret: 'change-this-secret-key-to-something-random',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
