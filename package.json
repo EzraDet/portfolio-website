@@ -2,8 +2,10 @@
   "name": "portfolio-website",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "build": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@prisma/client": "^5.0.0",
     "bcryptjs": "^3.0.3",
     "body-parser": "^2.3.0",
     "cors": "^2.8.6",
@@ -19,5 +22,8 @@
     "express-session": "^1.19.0",
     "multer": "^2.4.0",
     "nodemailer": "^10.0.10"
+  },
+  "devDependencies": {
+    "prisma": "^5.0.0"
   }
 }
