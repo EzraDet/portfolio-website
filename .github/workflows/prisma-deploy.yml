@@ -22,7 +22,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Deploy with Prisma
         uses: prisma/cloud-deploy-action@v1
         with:
-          project: portfolio-website
+          module: server.js
